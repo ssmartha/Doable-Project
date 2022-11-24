@@ -1,0 +1,37 @@
+.form .input__content{
+  padding: 0;
+  margin: 0;
+  border:0;
+  /* border: 2px solid var(--stone-50); */
+}
+
+.input{
+  border: 2px solid var(--gray-700);
+  border-radius: 6px;
+  width: 100%;;
+  color: var(--gray-700);
+  cursor: pointer;
+  padding: 8px 12px 8px 12px;
+  display: flex;
+  justify-content: left;
+  gap: 12px;
+}
+
+.input--focus{
+  outline: 3.5px solid var(--outline-primary) ;
+}
+
+.input--invalid{
+  border-color: var(--red-500);
+}
+
+.input-group{
+  /* width: 304px; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(304px,1fr));
+  /* display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; */
+  /* gap: 32px; */
+  /* margin-bottom: 32px; */
+}

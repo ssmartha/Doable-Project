@@ -1,0 +1,30 @@
+.pip-container{
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.repo-button{
+  padding: 0.875rem 1.5rem;
+}
+
+.features-content,
+.project-partners-content{
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+  gap: 2rem;
+}
+
+.partner-photo{
+  width: 320px;
+  height: 256px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.pip-preview{
+  width: 384px;
+  height: 327px;
+  border-radius: 8px;
+  /* object-fit: cover; */
+}
