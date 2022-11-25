@@ -1,5 +1,8 @@
-import { input } from "../components/input.js"
-import login from "../services/sessions-service.js"
+import { input } from "../components/input.js";
+import DOMHandler from "../dom-handler.js";
+import { login } from "../services/sessions-service.js";
+import STORE from "../store.js";
+import tasksPage from "./tasks-page.js";
 
 function render() {
   const { loginError } = this.state;
@@ -7,6 +10,10 @@ function render() {
   <main class="section">
       <section class="container">
         <h1 class="heading heading--lg text-center mb-4">Login</h1>
+        <div class="show-profile-header">
+            <h1 class="heading heading--lg text-center mb-2">Icon</h1>
+            <a class="text-center block mb-8 js-logout"></a>
+        </div>
         <form class="flex flex-column gap-4 mb-4 js-login-form">
 
           ${input({
@@ -55,13 +62,21 @@ function listenSubmitLogin() {
       password: password.value,
     };
 
+    let user;
     console.log(credentials);
     try {
-      const user = await login(credentials);
+      user = await login(credentials);
       console.log(user);
     } catch (error) {
-      console.error(error);
+      console.log("OtherPage not Login desde login-page.js");
+      throw new Error(response.statusText);
     }
+
+    STORE.setUser(user);
+    STORE.setCurrentPage("tasks");
+
+    DOMHandler.load(tasksPage(), document.querySelector("#root"));
+
   })
 }
 

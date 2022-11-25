@@ -1,7 +1,7 @@
 // import apiFetch from "./api-fetch/js";
 // import apiFetch from "./api-fetch.js";
 import apiFetch from "./api-fetch.js";
-import { tokenKey } from "../config.js";
+import { tokenKey, appKey } from "../config.js";
 
 console.log(apiFetch);
 
@@ -13,9 +13,10 @@ export async function login(credentials = { email, password }) {
 }
 
 export async function logout() {
-  const data = await apiFetch("logout", { method: "DELETE" });
+  localStorage.removeItem(appKey);
   sessionStorage.removeItem(tokenKey);
+  // const data = await apiFetch("logout", { method: "DELETE" });
 
-  return data;
+  // return data;
 }
 

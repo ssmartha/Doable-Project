@@ -26,7 +26,10 @@ export default async function apiFetch(
     body: body ? JSON.stringify(body) : null,
   };
 
-  const response = await fetch(`${BASE_URI}/${endpoint}`, config);
+  console.log(`${BASE_URI}${endpoint}`);
+  console.log(config);
+  const response = await fetch(`${BASE_URI}${endpoint}`, config);
+  console.log(response);
 
   let data;
   if (!response.ok) {
@@ -44,5 +47,6 @@ export default async function apiFetch(
     data = response.statusText;
   }
 
+  console.log(data);
   return data;
 }

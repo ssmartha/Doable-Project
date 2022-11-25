@@ -1,19 +1,33 @@
-import { tokenKey } from "./config.js";
+import { appKey, tokenKey } from "./config.js";
 import DOMHandler from "./dom-handler.js";
 import loginPage from "./pages/login-page.js";
+import signupPage from "./pages/signup-page.js";
+import tasksPage from "./pages/tasks-page.js";
+import STORE from "./store.js";
 
-// const
+const router = {
+  login: loginPage,
+  signup: signupPage,
+  tasks: tasksPage,
+};
 
 function DoableApp() {
-  const token = localStorage.getItem(tokenKey)
+  const token = sessionStorage.getItem(tokenKey)
+  const data = localStorage.getItem(appKey)
+  // const
   let module;
 
-  if (!token) {
-    console.log("LoginPage");
-    module = loginPage
-  } else {
-    console.log("TaskPage");
-    module = TasksPage
+  try {
+    if (!token && !data){
+      console.log("LoginPage sin token y data cargada");
+      module = loginPage;
+    } else {
+      console.log("OtherPage not Login desde app.js");
+      module = router[STORE.currentPage];
+    }
+  } catch (error) {
+    console.log("LoginPage por error");
+    module = loginPage;
   }
 
   return DOMHandler.load(module(),document.querySelector("#root"));
