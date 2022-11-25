@@ -1,4 +1,5 @@
 import { input } from "../components/input.js"
+import login from "../services/sessions-service.js"
 
 function render() {
   const { loginError } = this.state;
@@ -45,9 +46,22 @@ function listenSubmitLogin() {
   console.log("listenSubmit from Login Page");
   const form = document.querySelector(".js-login-form")
 
-  form.addEventListener("submit", (event) => {
-    const form = event.target;
-    console.log(form);
+  form.addEventListener("submit", async(event) => {
+    event.preventDefault();
+
+    const { email, password } = event.target;
+    const credentials = {
+      email: email.value,
+      password: password.value,
+    };
+
+    console.log(credentials);
+    try {
+      const user = await login(credentials);
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
   })
 }
 

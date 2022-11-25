@@ -1,6 +1,6 @@
 import { tokenKey } from "./config.js";
 import DOMHandler from "./dom-handler.js";
-import loginPage from "../pages/login-page.js";
+import loginPage from "./pages/login-page.js";
 
 // const
 
