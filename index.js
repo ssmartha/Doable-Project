@@ -1,3 +1,3 @@
-import DoableApp from "./scripts/services/app.js"
+import DoableApp from "./scripts/app.js"
 
 DoableApp()

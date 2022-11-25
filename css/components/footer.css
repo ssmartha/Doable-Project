@@ -1,12 +1,5 @@
 .footer {
-  background-color: var(--primary-light);
-}
-
-.footer__content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 2em;
-  padding: 3em 0;
+  background-color: var(--gray-100);
+  padding: 1em;
+  text-align: center;
 }
