@@ -5,21 +5,13 @@ import DOMHandler from "../dom-handler.js";
 import STORE from "../store.js";
 import { saveToLocalStorage } from "../utils.js";
 import { listTasks, getTask, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
-// import { login } from "../services/sessions-service.js"
 
-// async function loadTasks(){
-//   let tasks = await listTasks();
-//   STORE.setTasks(tasks);
-//   console.log(STORE);
-// }
-
-// loadTasks().then(console.log)
 
 function renderTask(task) {
   console.log("inside render task!!!");
   // console.log(task);
   return `
-    <div class="task js-task flex" data-taskId="${task.id}">
+    <div class="task js-task flex" data-id="${task.id}">
       <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
       ${task.completed == true ? "primary-100" : "gray-200"}">
       </icon>
@@ -56,19 +48,20 @@ function render() {
 
             <select class="form-select" aria-label="Default select example" name="filter" id="filter">
                 <option disabled selected hidden>Select an option</option>
-                <option value="Alphabetical (a-z)" id="relation"}>Alphabetical (a-z)</option>
-                <option value="Due date" id="relation"}>Due date</option>
-                <option value="Importance" id="relation"}>Importance</option>
+                <option value="Alphabetical (a-z)" id="filter-option"}>Alphabetical (a-z)</option>
+                <option value="Due date" id="filter-option"}>Due date</option>
+                <option value="Importance" id="filter-option"}>Importance</option>
             </select>
            </div>
-           <div>
-            <label class="content-xs overline"> Show </label>
 
-            <input type="checkbox" id="pending-tasks" class="content-xs overline"/>
-            <label for="pending-tasks" class="content-xs overline js-pending-filter"> Only pending </label>
 
-            <input type="checkbox" id="important-tasks" class="content-xs overline"/>
-            <label for="important-tasks" class="content-xs overline js-important-filter"> Only important </label>
+           <div class="checkboxes-container flex">
+           <label class="content-xs overline"> Show </label>
+
+           <label class="content-xs overline js-pending-filter  flex">
+            <input type="radio" class="checkbox" value="completed" name="checkbox" />Only pending</label>
+           <label class="content-xs overline js-important-filter flex ">
+            <input type="radio" class="checkbox" value="important" name="checkbox" />Only important</label>
            </div>
 
            <div class="task-list js-list-container"
