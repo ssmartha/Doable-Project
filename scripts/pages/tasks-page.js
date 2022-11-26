@@ -49,7 +49,7 @@ function render() {
             <img src="/assets/images/doable-logo.png" alt="doable logo"/>
             <a class="text-center block mb-0 js-logout">Logout</a>
           </header>
-          <form class="flex flex-column gap-4 mb-4 js-login-form">
+          <form class="flex flex-column gap-4 mb-4 js-tasks-form">
            <div>
             <label class="content-xs overline"> Sort </label>
 
@@ -76,8 +76,8 @@ function render() {
            </div>
 
           ${input({
-            id: "new-task",
-            name: "new-task",
+            id: "title",
+            name: "title",
             placeholder: "do the dishes...",
             type: "text",
             required: true,
@@ -85,8 +85,8 @@ function render() {
           })}
 
           ${input({
-            id: "due-date",
-            name: "due-date",
+            id: "date",
+            name: "date",
             pattern:  "((0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4})",
             placeholder: "dd/mm/aaaa",
             type: "text",
@@ -103,27 +103,32 @@ function render() {
 
 function listenSubmitLogin() {
   console.log("listenSubmit from Tasks Page");
-  // const form = document.querySelector(".js-login-form")
 
-  // form.addEventListener("submit", async(event) => {
-  //   event.preventDefault();
+  const form = document.querySelector(".js-tasks-form")
 
-  //   const { email, password } = event.target;
-  //   const credentials = {
-  //     email: email.value,
-  //     password: password.value,
-  //   };
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  //   console.log(credentials);
-  //   try {
-  //     const user = await login(credentials);
-  //     console.log(user);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+    try {
+      console.log(event.target.elements);
+      const { title, date  } = event.target.elements;
 
+      const newTask = {
+        title: title.value,
+        due_date: date.value,
+      }
 
-  // })
+      console.log(newTask);
+      const createdTask = await createTask(newTask);
+      STORE.addTask(createdTask);
+      console.log(STORE);
+
+      DOMHandler.load(tasksPage(), document.querySelector("#root"));
+
+    } catch (error) {
+      console.log(error);
+    }
+  })
 }
 
 function listenCreateAccount() {
