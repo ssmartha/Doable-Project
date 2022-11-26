@@ -3,7 +3,7 @@ import { logout } from "../services/sessions-service.js";
 import loginPage from "./login-page.js";
 import DOMHandler from "../dom-handler.js";
 import STORE from "../store.js";
-import { listTasks, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
+import { listTasks, getTask, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
 // import { login } from "../services/sessions-service.js"
 
 // async function loadTasks(){
@@ -16,7 +16,7 @@ import { listTasks, createTask, editTask, importantTask, completedTask, deleteTa
 
 function renderTask(task) {
   console.log("inside render task!!!");
-  console.log(task);
+  // console.log(task);
   return `
     <div class="task js-task flex" data-taskId="${task.id}">
       <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
@@ -101,8 +101,8 @@ function render() {
         `;
 }
 
-function listenSubmitLogin() {
-  console.log("listenSubmit from Tasks Page");
+function addNewTaskListener() {
+  console.log("addNewTaskListener from Tasks Page");
 
   const form = document.querySelector(".js-tasks-form")
 
@@ -131,9 +131,55 @@ function listenSubmitLogin() {
   })
 }
 
-function listenCreateAccount() {
-  console.log("listenCreateAccount from Tasks Page")
+function importantTaskListener() {
+  console.log("importantTaskListener from Tasks Page");
+
+  const icons = document.querySelectorAll(".js-important-icon");
+
+  icons.forEach((icon)=> {
+    icon.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      try {
+        console.log(event.target.dataset.id);
+        const id = event.target.dataset.id;
+        console.log(id);
+
+        const taskOfIconSelected = await getTask(id);
+        console.log(taskOfIconSelected);
+        console.log(taskOfIconSelected.important);
+
+        const newImportantStatus = {
+          title: taskOfIconSelected.title,
+          due_date: taskOfIconSelected.due_date,
+          important: !taskOfIconSelected.important,
+          completed: taskOfIconSelected.completed
+        }
+
+        console.log(!taskOfIconSelected.important);
+
+        const updatedTask = await editTask(newImportantStatus, id);
+        console.log(updatedTask);
+        // STORE.addTask(createdTask);
+        // console.log(STORE);
+
+        const tasks = await listTasks();
+        STORE.setTasks(tasks);
+
+        DOMHandler.load(tasksPage(), document.querySelector("#root"));
+
+      } catch (error) {
+        console.log(error);
+      }
+    })
+
+
+  })
 }
+
+// function listenCreateAccount() {
+//   console.log("listenCreateAccount from Tasks Page")
+// }
 
 function listenLogout() {
   const a = document.querySelector(".js-logout");
@@ -156,8 +202,10 @@ function tasksPage() {
       return render.call(this);
     },
     addListeners() {
-      listenSubmitLogin();
-      listenCreateAccount();
+      addNewTaskListener();
+      importantTaskListener();
+      // listenSubmitLogin();
+      // listenCreateAccount();
       listenLogout();
     },
     state: {

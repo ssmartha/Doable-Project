@@ -5,13 +5,17 @@ export const listTasks = () => {
 	return apiFetch("/tasks");
 };
 
+export const getTask = ( id ) => {
+	return apiFetch(`tasks/${id}`);
+};
+
 export async function createTask(
   newTask = { title, due_date , important:false , completed:false }
 ) {
   	return await apiFetch("tasks", { body: newTask });
 }
 
-export async function editTask(newBody = { title, due_date }, id) {
+export async function editTask(newBody = { title, due_date, important, completed }, id) {
   return await apiFetch (`tasks/${id}`,{ method: "PATCH", body: newBody});
 }
 

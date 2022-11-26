@@ -9,5 +9,5 @@ export function saveToLocalStorage(key, value) {
   let data = JSON.parse(localStorage.getItem(appKey)) || {};
   data = { ...data, [key]: value };
   localStorage.setItem(appKey, JSON.stringify(data));
-  console.log(localStorage.getItem(appKey))
+  // console.log(localStorage.getItem(appKey))
 }
