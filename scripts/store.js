@@ -35,7 +35,7 @@ const STORE = {
     tasks = newTasks;
     saveToLocalStorage("tasks",tasks);
   },
-  fetchTasks,
+  // fetchTasks,
 }
 
 export default STORE;

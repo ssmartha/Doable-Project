@@ -16,88 +16,88 @@ import { listTasks, createTask, editTask, importantTask, completedTask, deleteTa
 
 function renderTask(task) {
   console.log("inside render task!!!");
-  console.log(STORE);
-  console.log(STORE.tasks);
   console.log(task);
   return `
-    <div class="task js-task" data-taskId="${task.id}">
-      <img
-        src="/assets/icons/check.svg"
-        alt="check"
-        class="js-task-check"
-      />
+    <div class="task js-task flex" data-taskId="${task.id}">
+      <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
+      ${task.completed == true ? "primary-100" : "gray-200"}">
+      </icon>
       <div>
         <p>${task.title}</p>
         <p>${task.due_date}</p>
       </div>
-      <img
-        src="/assets/icons/important.svg"
-        alt="important"
-        class="js-task-important"
-      />
-
+      <icon data-id="${task.id}" class="ri-error-warning-fill js-important-icon
+      ${task.important == true ? "primary-100" : "gray-200"}
+      ${task.completed == true && task.important == true ? "primary-200" : ""}">
+      </icon>
     </div>
   `;
 }
 
 function render() {
   console.log("inside render!!!");
-  STORE.fetchTasks;
+  // STORE.fetchTasks;
   const tasksList = STORE.tasks;
 
-  console.log(STORE);
-  console.log(STORE.tasks);
-  console.log(tasksList);
+  // console.log(STORE);
+  // console.log(STORE.tasks);
+  // console.log(tasksList);
   return `
-    <header class="">
-      <img src="/assets/images/doable-logo.png" alt="doable logo" />
-      <a class="text-center block mb-8 js-logout">Logout</a>
-    </header>
-    <div
-      class="task-list js-list-container"
-      data-listName="tasks-barcelona"
-    >
-      ${tasksList.map(renderTask).join("")}
-    </div>
-        `
-  // const { loginError } = this.state;
-  // return `
-  // <main class="section">
-  //     <section class="container">
-  //       <h1 class="heading heading--lg text-center mb-4">Login</h1>
-  //       <form class="flex flex-column gap-4 mb-4 js-login-form">
+    <main class="section">
+        <section class="container">
+          <header class="header">
+            <img src="/assets/images/doable-logo.png" alt="doable logo"/>
+            <a class="text-center block mb-0 js-logout">Logout</a>
+          </header>
+          <form class="flex flex-column gap-4 mb-4 js-login-form">
+           <div>
+            <label class="content-xs overline"> Sort </label>
 
-  //         ${input({
-  //           label: "email",
-  //           id: "email",
-  //           name: "email",
-  //           placeholder: "you@example.com",
-  //           type: "email",
-  //           required: true,
-  //           // value: "test1@mail.com",
-  //         })}
+            <select class="form-select" aria-label="Default select example" name="filter" id="filter">
+                <option disabled selected hidden>Select an option</option>
+                <option value="Acquaintance" id="relation"}>Acquaintance</option>
+                <option value="Alphabetical (a-z)" id="relation"}>Alphabetical (a-z)</option>
+                <option value="Due date" id="relation"}>Due date</option>
+            </select>
+           </div>
+           <div>
+            <label class="content-xs overline"> Show </label>
 
-  //         ${input({
-  //           label: "password",
-  //           id: "password",
-  //           name: "password",
-  //           placeholder: "******",
-  //           type: "password",
-  //           required: true,
-  //           // value: "123456",
-  //         })}
+            <input type="checkbox" id="pending-tasks" class="content-xs overline"/>
+            <label for="pending-tasks" class="content-xs overline js-pending-filter"> Only pending </label>
 
-  //         ${
-  //           loginError
-  //             ? `<p class="text-center error-300">${loginError}</p>`
-  //             : ""
-  //         }
-  //         <button class="button button--primary">Login</button>
-  //       </form>
-  //       <a href="#" class="block text-center primary-100 js-signup-link">Create account</a>
-  //     </section>
-  //   </main>
-  // `;
+            <input type="checkbox" id="important-tasks" class="content-xs overline"/>
+            <label for="important-tasks" class="content-xs overline js-important-filter"> Only important </label>
+           </div>
+
+           <div class="task-list js-list-container"
+           data-listName="tasks-barcelona">
+           ${tasksList.map(renderTask).join("")}
+           </div>
+
+          ${input({
+            id: "new task",
+            name: "new task",
+            placeholder: "do the dishes...",
+            type: "text",
+            required: true,
+            // value: "test1@mail.com",
+          })}
+
+          ${input({
+            id: "due date",
+            name: "due date",
+            placeholder: "******",
+            type: "date",
+            required: true,
+            // value: "123456",
+          })}
+
+          <button class="button button--primary js-submit-newtask"> Add Task </button>
+        </form>
+      </section>
+    </main>
+        `;
 }
 
 function listenSubmitLogin() {

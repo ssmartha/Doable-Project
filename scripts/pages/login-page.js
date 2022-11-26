@@ -77,7 +77,11 @@ function listenSubmitLogin() {
     STORE.setCurrentPage("tasks");
 
     const tasks = await listTasks();
+    console.log(tasks);
     STORE.setTasks(tasks);
+    console.log(STORE);
+    console.log(STORE.tasks);
+    // STORE.fetchTasks;
 
     DOMHandler.load(tasksPage(), document.querySelector("#root"));
 
