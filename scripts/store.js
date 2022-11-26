@@ -1,9 +1,17 @@
 import { saveToLocalStorage, fromLocalStorage } from "./utils.js";
+import { listTasks } from "./services/tasks-service.js"
+
+// async function fetchTasks() {
+//   const tasks = await listTasks();
+//   console.log(tasks);
+//   this.setTasks(tasks);
+//   console.log(this);
+// }
 
 const STORE = {
   currentPage: fromLocalStorage("current-page") || "login",
   user: null,
-  tasks: [],
+  tasks: fromLocalStorage("tasks") || [],
   setUser(user) {
     this.user = user;
     saveToLocalStorage("user",user);
@@ -27,6 +35,7 @@ const STORE = {
     tasks = newTasks;
     saveToLocalStorage("tasks",tasks);
   },
+  fetchTasks,
 }
 
 export default STORE;

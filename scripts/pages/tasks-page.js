@@ -2,14 +2,64 @@ import { input } from "../components/input.js"
 import { logout } from "../services/sessions-service.js";
 import loginPage from "./login-page.js";
 import DOMHandler from "../dom-handler.js";
+import STORE from "../store.js";
+import { listTasks, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
 // import { login } from "../services/sessions-service.js"
 
+// async function loadTasks(){
+//   let tasks = await listTasks();
+//   STORE.setTasks(tasks);
+//   console.log(STORE);
+// }
+
+// loadTasks().then(console.log)
+
+function renderTask(task) {
+  console.log("inside render task!!!");
+  console.log(STORE);
+  console.log(STORE.tasks);
+  console.log(task);
+  return `
+    <div class="task js-task" data-taskId="${task.id}">
+      <img
+        src="/assets/icons/check.svg"
+        alt="check"
+        class="js-task-check"
+      />
+      <div>
+        <p>${task.title}</p>
+        <p>${task.due_date}</p>
+      </div>
+      <img
+        src="/assets/icons/important.svg"
+        alt="important"
+        class="js-task-important"
+      />
+
+    </div>
+  `;
+}
+
 function render() {
-  return `<div>Tasks page</div>
-         <div class="show-profile-header">
-            <h1 class="heading heading--lg text-center mb-2">Icon</h1>
-            <a class="text-center block mb-8 js-logout">Logout</a>
-        </div>`
+  console.log("inside render!!!");
+  STORE.fetchTasks;
+  const tasksList = STORE.tasks;
+
+  console.log(STORE);
+  console.log(STORE.tasks);
+  console.log(tasksList);
+  return `
+    <header class="">
+      <img src="/assets/images/doable-logo.png" alt="doable logo" />
+      <a class="text-center block mb-8 js-logout">Logout</a>
+    </header>
+    <div
+      class="task-list js-list-container"
+      data-listName="tasks-barcelona"
+    >
+      ${tasksList.map(renderTask).join("")}
+    </div>
+        `
   // const { loginError } = this.state;
   // return `
   // <main class="section">

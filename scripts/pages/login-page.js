@@ -3,6 +3,7 @@ import DOMHandler from "../dom-handler.js";
 import { login } from "../services/sessions-service.js";
 import STORE from "../store.js";
 import tasksPage from "./tasks-page.js";
+import { listTasks } from "../services/tasks-service.js";
 
 function render() {
   const { loginError } = this.state;
@@ -74,6 +75,9 @@ function listenSubmitLogin() {
 
     STORE.setUser(user);
     STORE.setCurrentPage("tasks");
+
+    const tasks = await listTasks();
+    STORE.setTasks(tasks);
 
     DOMHandler.load(tasksPage(), document.querySelector("#root"));
 
