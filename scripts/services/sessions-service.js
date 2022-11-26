@@ -13,10 +13,9 @@ export async function login(credentials = { email, password }) {
 }
 
 export async function logout() {
-  localStorage.removeItem(appKey);
   sessionStorage.removeItem(tokenKey);
+  localStorage.removeItem(appKey);
   // const data = await apiFetch("logout", { method: "DELETE" });
-
   // return data;
 }
 

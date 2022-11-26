@@ -10,6 +10,7 @@ import { listTasks } from "./services/tasks-service.js"
 
 const STORE = {
   currentPage: fromLocalStorage("current-page") || "login",
+  currentSortFilter: fromLocalStorage("current-sort-filter") || "",
   user: null,
   tasks: fromLocalStorage("tasks") || [],
   setUser(user) {
@@ -19,6 +20,10 @@ const STORE = {
   setCurrentPage(page) {
     this.currentPage = page;
     saveToLocalStorage("current-page", page);
+  },
+  setCurrentSortFilter(filter) {
+    this.currentSortFilter = filter;
+    saveToLocalStorage("current-sort-filter", filter);
   },
   setTasks(tasks) {
     this.tasks = tasks;

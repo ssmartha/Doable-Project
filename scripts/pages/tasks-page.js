@@ -6,10 +6,32 @@ import STORE from "../store.js";
 import { saveToLocalStorage } from "../utils.js";
 import { listTasks, getTask, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
 
+let sortFilter;
+
+const sortByAlphabet = function (a, b){
+  if (a.title < b.title) {
+    return -1;
+  }
+  if (a.title > b.title) {
+    return 1;
+  }
+  return 0;
+}
+
+const sortByDate = function (a, b) {
+  return new Date(a.due_date) - new Date(b.due_date)
+}
+
+
+const sortByImportance = function(a,b){
+    if(a.completed == true) return 1;
+    else if(b.important == true) return 0;
+    else return -1;
+}
 
 function renderTask(task) {
   console.log("inside render task!!!");
-  // console.log(task);
+
   return `
     <div class="task js-task flex" data-id="${task.id}">
       <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
@@ -29,12 +51,17 @@ function renderTask(task) {
 
 function render() {
   console.log("inside render!!!");
-  // STORE.fetchTasks;
-  const tasksList = STORE.tasks;
 
-  // console.log(STORE);
-  // console.log(STORE.tasks);
-  // console.log(tasksList);
+  let tasksList = STORE.tasks;
+
+  if (sortFilter != "") tasksList = tasksList.sort(sortFilter);
+
+  if (sortFilter == sortByDate) {
+    tasksList = tasksList.reverse();
+  }
+
+  STORE.setTasks(tasksList);
+
   return `
     <main class="section">
         <section class="container">
@@ -46,11 +73,17 @@ function render() {
            <div>
             <label class="content-xs overline"> Sort </label>
 
-            <select class="form-select" aria-label="Default select example" name="filter" id="filter">
+            <select class="form-select" aria-label="Default select example" name="sort-filter" id="sort-filter">
                 <option disabled selected hidden>Select an option</option>
-                <option value="Alphabetical (a-z)" id="filter-option"}>Alphabetical (a-z)</option>
-                <option value="Due date" id="filter-option"}>Due date</option>
-                <option value="Importance" id="filter-option"}>Importance</option>
+                <option value="Alphabetical (a-z)" id="sort-option"
+                ${STORE.currentSortFilter === "Alphabetical (a-z)" ? "selected" : ""}
+                >Alphabetical (a-z)</option>
+                <option value="Due date" id="sort-option"
+                ${STORE.currentSortFilter === "Due date" ? "selected" : ""}
+                >Due date</option>
+                <option value="Importance" id="sort-option"
+                ${STORE.currentSortFilter === "Importance" ? "selected" : ""}
+                >Importance</option>
             </select>
            </div>
 
@@ -59,13 +92,12 @@ function render() {
            <label class="content-xs overline"> Show </label>
 
            <label class="content-xs overline js-pending-filter  flex">
-            <input type="radio" class="checkbox" value="completed" name="checkbox" />Only pending</label>
+            <input type="radio" class="show-filter" value="completed" name="show-filter" />Only pending</label>
            <label class="content-xs overline js-important-filter flex ">
-            <input type="radio" class="checkbox" value="important" name="checkbox" />Only important</label>
+            <input type="radio" class="show-filter" value="important" name="show-filter" />Only important</label>
            </div>
 
-           <div class="task-list js-list-container"
-           data-listName="tasks-barcelona">
+           <div class="task-list js-tasks-container">
            ${tasksList.map(renderTask).join("")}
            </div>
 
@@ -84,11 +116,10 @@ function render() {
             pattern:  "((0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4})",
             placeholder: "dd/mm/aaaa",
             type: "text",
-            required: true,
             // value: "dd/mm/aaaa",
           })}
 
-          <button class="button button--primary js-submit-newtask"> Add Task </button>
+          <button class="button button--primary"> Add Task </button>
         </form>
       </section>
     </main>
@@ -203,6 +234,29 @@ function completedTaskListener() {
   })
 }
 
+function sortByFilterListener() {
+  console.log("showByFilterListener from Tasks Page");
+
+  let selectedOption;
+  document.getElementById('sort-filter').addEventListener('change', function() {
+    selectedOption = this.value;
+
+    try {
+      if (selectedOption == "Alphabetical (a-z)") sortFilter = sortByAlphabet;
+
+      if (selectedOption == "Due date") sortFilter = sortByDate;
+
+      if (selectedOption == "Importance") sortFilter = sortByImportance;
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (sortFilter != "") STORE.setCurrentSortFilter(selectedOption)
+    DOMHandler.reload();
+  }, false);
+
+}
+
 function listenLogout() {
   const a = document.querySelector(".js-logout");
 
@@ -211,6 +265,7 @@ function listenLogout() {
 
     try {
       await logout();
+      STORE.setCurrentSortFilter("");
       DOMHandler.load(loginPage(),document.querySelector("#root"));
     } catch (error) {
       console.log(error);
@@ -227,8 +282,7 @@ function tasksPage() {
       addNewTaskListener();
       importantTaskListener();
       completedTaskListener();
-      // listenSubmitLogin();
-      // listenCreateAccount();
+      sortByFilterListener();
       listenLogout();
     },
     state: {
