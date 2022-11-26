@@ -55,9 +55,9 @@ function render() {
 
             <select class="form-select" aria-label="Default select example" name="filter" id="filter">
                 <option disabled selected hidden>Select an option</option>
-                <option value="Acquaintance" id="relation"}>Acquaintance</option>
                 <option value="Alphabetical (a-z)" id="relation"}>Alphabetical (a-z)</option>
                 <option value="Due date" id="relation"}>Due date</option>
+                <option value="Importance" id="relation"}>Importance</option>
             </select>
            </div>
            <div>
@@ -76,8 +76,8 @@ function render() {
            </div>
 
           ${input({
-            id: "new task",
-            name: "new task",
+            id: "new-task",
+            name: "new-task",
             placeholder: "do the dishes...",
             type: "text",
             required: true,
@@ -85,12 +85,13 @@ function render() {
           })}
 
           ${input({
-            id: "due date",
-            name: "due date",
-            placeholder: "******",
-            type: "date",
+            id: "due-date",
+            name: "due-date",
+            pattern:  "((0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4})",
+            placeholder: "dd/mm/aaaa",
+            type: "text",
             required: true,
-            // value: "123456",
+            // value: "dd/mm/aaaa",
           })}
 
           <button class="button button--primary js-submit-newtask"> Add Task </button>
