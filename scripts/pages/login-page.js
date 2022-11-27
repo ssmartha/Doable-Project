@@ -10,11 +10,9 @@ function render() {
   return `
   <main class="section">
       <section class="container">
-        <h1 class="heading heading--lg text-center mb-4">Login</h1>
-        <div class="show-profile-header">
-            <h1 class="heading heading--lg text-center mb-2">Icon</h1>
-            <a class="text-center block mb-8 js-logout"></a>
-        </div>
+        <header class="header">
+          <img src="/assets/images/doable-logo.png" alt="doable logo" class="flex items-center"/>
+        </header>
         <form class="flex flex-column gap-4 mb-4 js-login-form">
 
           ${input({

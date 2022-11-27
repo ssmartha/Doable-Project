@@ -7,7 +7,7 @@ import { saveToLocalStorage } from "../utils.js";
 import { listTasks, getTask, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
 
 let sortFilter;
-let showFilter;
+// let showFilter;
 
 const sortByAlphabet = function (a, b){
   if (a.title < b.title) {
@@ -29,15 +29,15 @@ const sortByImportance = function(a,b){
     else return -1;
 }
 
-const onlyPending = function (tasks) {
-  const pendingTasks = tasks.filter((task) => task.completed !== true);
-  return pendingTasks;
-}
+// function onlyPending(tasks){
+//   const pendingTasks = tasks.filter((task) => task.completed !== true);
+//   return pendingTasks;
+// }
 
-const onlyImportant = function (tasks) {
-  const importantTasks = tasks.filter((task) => task.important == true);
-  return importantTasks;
-}
+// function onlyImportant(tasks) {
+//   const importantTasks = tasks.filter((task) => task.important == true);
+//   return importantTasks;
+// }
 
 function renderTask(task) {
   console.log("inside render task!!!");
@@ -69,9 +69,9 @@ function render() {
     STORE.setTasks(tasksList);
    }
 
-  // if (showFilter != "") tasksList = showFilter(tasksList);
-  if (showFilter != "") console.log(showFilter);
-  console.log("here show Filter", showFilter);
+  // if (showFilter != "") tasksList = showFilter((task)=> );
+  // // if (showFilter != "") console.log(showFilter);
+  // // console.log("here show Filter", showFilter);
   console.log(tasksList);
 
   return `
@@ -268,36 +268,37 @@ function sortByFilterListener() {
   }, false);
 }
 
-
+// let option;
 function showOnlyFilterListener() {
   console.log("showOnlyFilterListener from Tasks Page");
 
 
   const inputs = document.querySelectorAll(".show-filter");
 
-  inputs.forEach((input)=> {
-    input.addEventListener("change", async (event) => {
-      event.preventDefault();
+  // inputs.forEach((input)=> {
+  //   input.addEventListener("change", async (event) => {
+  //     event.preventDefault();
 
-      console.log(event.target);
-      console.log(event.target.checked);
-      console.log(event.target.value);
 
-      option = event.target.value;
+  //     // option = event.target.value;
 
-      try {
-        if (option == "pending") showFilter = onlyPending;
-        if (option == "important") showFilter = onlyImportant;
+  //     try {
+  //       console.log(event.target);
+  //       console.log(event.target.checked);
+  //       console.log(event.target.value);
 
-      } catch (error) {
-        console.log(error);
-      }
+  //       if (event.target.value == "pending") showFilter = onlyPending;
+  //       if (event.target.value == "important") showFilter = onlyImportant;
 
-      // if (sortFilter != "") STORE.setCurrentSortFilter(selectedOption)
-      DOMHandler.reload();
-    })
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
 
-  })
+  //     // if (sortFilter != "") STORE.setCurrentSortFilter(selectedOption)
+  //     DOMHandler.reload();
+  //   })
+
+  // })
 
 }
 
