@@ -7,6 +7,7 @@ import { saveToLocalStorage } from "../utils.js";
 import { listTasks, getTask, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
 
 let sortFilter;
+let showFilter;
 
 const sortByAlphabet = function (a, b){
   if (a.title < b.title) {
@@ -22,11 +23,20 @@ const sortByDate = function (a, b) {
   return new Date(a.due_date) - new Date(b.due_date)
 }
 
-
 const sortByImportance = function(a,b){
     if(a.completed == true) return 1;
     else if(b.important == true) return 0;
     else return -1;
+}
+
+const onlyPending = function (tasks) {
+  const pendingTasks = tasks.filter((task) => task.completed !== true);
+  return pendingTasks;
+}
+
+const onlyImportant = function (tasks) {
+  const importantTasks = tasks.filter((task) => task.important == true);
+  return importantTasks;
 }
 
 function renderTask(task) {
@@ -54,13 +64,15 @@ function render() {
 
   let tasksList = STORE.tasks;
 
-  if (sortFilter != "") tasksList = tasksList.sort(sortFilter);
+  if (sortFilter != "") {
+    tasksList = tasksList.sort(sortFilter);
+    STORE.setTasks(tasksList);
+   }
 
-  if (sortFilter == sortByDate) {
-    tasksList = tasksList.reverse();
-  }
-
-  STORE.setTasks(tasksList);
+  // if (showFilter != "") tasksList = showFilter(tasksList);
+  if (showFilter != "") console.log(showFilter);
+  console.log("here show Filter", showFilter);
+  console.log(tasksList);
 
   return `
     <main class="section">
@@ -91,10 +103,10 @@ function render() {
            <div class="checkboxes-container flex">
            <label class="content-xs overline"> Show </label>
 
-           <label class="content-xs overline js-pending-filter  flex">
-            <input type="radio" class="show-filter" value="completed" name="show-filter" />Only pending</label>
-           <label class="content-xs overline js-important-filter flex ">
-            <input type="radio" class="show-filter" value="important" name="show-filter" />Only important</label>
+           <label class="content-xs overline js-pending-filter flex" id="">
+            <input type="radio" class="show-filter" value="pending" name="show-filter" id="completed" />Only pending</label>
+           <label class="content-xs overline js-important-filter flex" id="">
+            <input type="radio" class="show-filter" value="important" name="show-filter" id="important" />Only important</label>
            </div>
 
            <div class="task-list js-tasks-container">
@@ -254,6 +266,38 @@ function sortByFilterListener() {
     if (sortFilter != "") STORE.setCurrentSortFilter(selectedOption)
     DOMHandler.reload();
   }, false);
+}
+
+
+function showOnlyFilterListener() {
+  console.log("showOnlyFilterListener from Tasks Page");
+
+
+  const inputs = document.querySelectorAll(".show-filter");
+
+  inputs.forEach((input)=> {
+    input.addEventListener("change", async (event) => {
+      event.preventDefault();
+
+      console.log(event.target);
+      console.log(event.target.checked);
+      console.log(event.target.value);
+
+      option = event.target.value;
+
+      try {
+        if (option == "pending") showFilter = onlyPending;
+        if (option == "important") showFilter = onlyImportant;
+
+      } catch (error) {
+        console.log(error);
+      }
+
+      // if (sortFilter != "") STORE.setCurrentSortFilter(selectedOption)
+      DOMHandler.reload();
+    })
+
+  })
 
 }
 
@@ -283,6 +327,7 @@ function tasksPage() {
       importantTaskListener();
       completedTaskListener();
       sortByFilterListener();
+      showOnlyFilterListener();
       listenLogout();
     },
     state: {
