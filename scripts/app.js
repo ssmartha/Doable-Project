@@ -14,7 +14,6 @@ const router = {
 function DoableApp() {
   const token = sessionStorage.getItem(tokenKey)
   const data = localStorage.getItem(appKey)
-  // const
   let module;
 
   try {

@@ -61,6 +61,10 @@
   margin-bottom: 0.25rem;
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
 /* Flex & Grid */
 .flex {
   display: flex;
@@ -123,4 +127,10 @@
 
 .justify-between {
   justify-content: space-between;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

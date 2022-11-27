@@ -1,5 +1,6 @@
 export function input({
   label,
+  pattern,
   id,
   name,
   placeholder = "",
@@ -16,18 +17,13 @@ export function input({
         ? `<label for="${id}" class="content-xs overline">${label}</label>`
         : ""
     }
+
     <div class="input__container">
-      ${
-        icon
-          ? `<img
-          src="${icon}"
-          alt=""
-          class="input__icon"
-        />`
-          : ""
-      }
       <input
         type="${type ? type : "text"}"
+        ${ pattern
+        ? `pattern= "${pattern}" `: ""
+        }
         placeholder="${placeholder}"
         class="input__content"
         id="${id}"
