@@ -48,9 +48,9 @@ function renderTask(task) {
         <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
         ${task.completed == true ? "primary-100" : "gray-200"}">
         </icon>
-        <div>
-          <p class="break-task-word">${task.title}</p>
-          ${task.due_date == null ? "": `<p>${task.due_date}</p>`}
+        <div class="">
+          <p class="break-task-word content-lg">${task.title}</p>
+          ${task.due_date == null ? "": `<p class="content-lg">${task.due_date}</p>`}
         </div>
       </div>
       <icon data-id="${task.id}" class="ri-error-warning-fill js-important-icon
