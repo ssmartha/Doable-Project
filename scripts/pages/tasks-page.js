@@ -7,7 +7,7 @@ import { saveToLocalStorage } from "../utils.js";
 import { listTasks, getTask, createTask, editTask, importantTask, completedTask, deleteTask } from "../services/tasks-service.js";
 
 let sortFilter;
-// let showFilter;
+let showFilter;
 
 const sortByAlphabet = function (a, b){
   if (a.title < b.title) {
@@ -29,27 +29,29 @@ const sortByImportance = function(a,b){
     else return -1;
 }
 
-// function onlyPending(tasks){
-//   const pendingTasks = tasks.filter((task) => task.completed !== true);
-//   return pendingTasks;
-// }
+const onlyPending = function(tasks){
+  const pendingTasks = tasks.filter((task) => task.completed !== true);
+  return pendingTasks;
+}
 
-// function onlyImportant(tasks) {
-//   const importantTasks = tasks.filter((task) => task.important == true);
-//   return importantTasks;
-// }
+const onlyImportant = function(tasks) {
+  const importantTasks = tasks.filter((task) => task.important == true);
+  return importantTasks;
+}
 
 function renderTask(task) {
   console.log("inside render task!!!");
 
   return `
-    <div class="task js-task flex" data-id="${task.id}">
-      <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
-      ${task.completed == true ? "primary-100" : "gray-200"}">
-      </icon>
-      <div>
-        <p>${task.title}</p>
-        <p>${task.due_date}</p>
+    <div class="task js-task flex space-between" data-id="${task.id}">
+      <div class="flex gap-10p">
+        <icon data-id="${task.id}" class="ri-checkbox-fill js-completed-icon
+        ${task.completed == true ? "primary-100" : "gray-200"}">
+        </icon>
+        <div>
+          <p class="break-task-word">${task.title}</p>
+          ${task.due_date == null ? "": `<p>${task.due_date}</p>`}
+        </div>
       </div>
       <icon data-id="${task.id}" class="ri-error-warning-fill js-important-icon
       ${task.important == false ? "gray-200": ""}
@@ -70,13 +72,13 @@ function render() {
    }
 
   // if (showFilter != "") tasksList = showFilter((task)=> );
-  // // if (showFilter != "") console.log(showFilter);
+  if (showFilter != "") console.log(showFilter);
   // // console.log("here show Filter", showFilter);
   console.log(tasksList);
 
   return `
     <main class="section">
-        <section class="container">
+        <section class="container-sm">
           <header class="header">
             <img src="/assets/images/doable-logo.png" alt="doable logo"/>
             <a class="text-center block mb-0 js-logout">Logout</a>
@@ -273,7 +275,36 @@ function showOnlyFilterListener() {
   console.log("showOnlyFilterListener from Tasks Page");
 
 
-  const inputs = document.querySelectorAll(".show-filter");
+  // const a = document.querySelectorAll(".show-filter").target.checked;
+  // const b = document.querySelectorAll(".show-filter").target.value;
+  // const c = document.querySelectorAll(".show-filter").checked;
+  // // console.log(a);
+  // // console.log(b);
+  // console.log(c);
+
+  // let checkedInput = document.querySelector('input[name = "show-filter"]:checked');
+  // let radios = document.querySelectorAll('input[type="radio"]:checked');
+  // console.log(checkedInput);
+  // console.log(radios);
+
+  // const checked = [...document.getElementsByName("show-filter")].some(c=>c.checked);
+  // console.log(checked);
+
+  // AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+  // let selectedShowFilter;
+  // document.addEventListener('input',(e)=>{
+  //   if (e.target.getAttribute('name') == "show-filter") {
+  //     selectedShowFilter = e.target.value;
+  //     console.log(selectedShowFilter);
+
+  //     if (selectedShowFilter == "pending") showFilter = onlyPending;
+  //     if (selectedShowFilter == "important") showFilter = onlyImportant;
+
+  //     window.location.reload();
+  //   }
+  //   // DOMHandler.reload();
+  // })
 
   // inputs.forEach((input)=> {
   //   input.addEventListener("change", async (event) => {
@@ -287,15 +318,12 @@ function showOnlyFilterListener() {
   //       console.log(event.target.checked);
   //       console.log(event.target.value);
 
-  //       if (event.target.value == "pending") showFilter = onlyPending;
-  //       if (event.target.value == "important") showFilter = onlyImportant;
 
   //     } catch (error) {
   //       console.log(error);
   //     }
 
   //     // if (sortFilter != "") STORE.setCurrentSortFilter(selectedOption)
-  //     DOMHandler.reload();
   //   })
 
   // })

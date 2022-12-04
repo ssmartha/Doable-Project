@@ -6,6 +6,11 @@
   padding: 32px;
 }
 
+.container-sm {
+  max-width: 328px;
+  margin: auto;
+}
+
 .container {
   max-width: 760px;
   margin: auto;

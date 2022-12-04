@@ -25,6 +25,10 @@ const STORE = {
     this.currentSortFilter = filter;
     saveToLocalStorage("current-sort-filter", filter);
   },
+  setCurrentShowFilter(filter) {
+    this.currentShowFilter = filter;
+    saveToLocalStorage("current-sort-filter", filter);
+  },
   setTasks(tasks) {
     this.tasks = tasks;
     saveToLocalStorage("tasks",tasks);

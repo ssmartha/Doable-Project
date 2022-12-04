@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  padding: 2rem;
+  /* padding: 2rem; */
   background-color: var(--gray-100);
 }
 

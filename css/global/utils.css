@@ -82,6 +82,17 @@
   flex-wrap: wrap;
 }
 
+.break-task-word {
+  word-wrap: break-word;
+  white-space: normal;
+  width:275px;
+
+}
+
+.gap-10p {
+  gap: 10px;
+}
+
 .gap-2 {
   gap: 0.5rem;
 }
@@ -125,7 +136,7 @@
   padding: 0;
 }
 
-.justify-between {
+.space-between {
   justify-content: space-between;
 }
 
